@@ -5,38 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phonics Level Up!</title>
     <style>
-        :root { --pink: #f8a5c2; --blue: #778beb; --bg: #fffbe6; --gold: #feca57; }
-        body { font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif; background-color: var(--bg); text-align: center; margin: 0; padding: 10px; overflow-x: hidden; }
-        .container { max-width: 600px; margin: auto; padding: 25px; background: white; border-radius: 40px; box-shadow: 0 15px 0 #f0e68c; min-height: 90vh; position: relative; }
+        :root { --pink: #f8a5c2; --blue: #778beb; --bg: #fffbe6; --gold: #feca57; --accent: #54a0ff; --review: #9b59b6; }
+        body { font-family: 'Arial Rounded MT Bold', sans-serif; background-color: var(--bg); text-align: center; margin: 0; padding: 10px; }
+        .container { max-width: 600px; margin: auto; padding: 25px; background: white; border-radius: 40px; box-shadow: 0 15px 0 #f0e68c; min-height: 90vh; }
         
-        /* 標題與成就感 */
-        .header { color: #54a0ff; font-size: 32px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px #e3f2fd; }
-        .stars { font-size: 40px; color: var(--gold); margin-bottom: 15px; min-height: 50px; }
-        .victory-glow { animation: victoryPulse 1s infinite alternate; }
-        @keyframes victoryPulse { from { transform: scale(1); } to { transform: scale(1.2); text-shadow: 0 0 20px #feca57; } }
+        .header { color: var(--accent); font-size: 32px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px #e3f2fd; }
+        .stars { font-size: 40px; color: var(--gold); margin-bottom: 15px; }
 
-        /* 核心圓圈按鈕 */
-        .choice-container { display: flex; justify-content: space-around; align-items: center; margin: 40px 0; }
-        .circle-btn { width: 160px; height: 160px; border-radius: 50%; border: none; font-size: 30px; font-weight: bold; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 10px 0 rgba(0,0,0,0.1); }
+        /* 複習按鈕樣式 */
+        .review-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .review-btn { flex: 1; padding: 15px; background: var(--review); color: white; border: none; border-radius: 20px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px #8e44ad; }
+        .review-btn:active { transform: translateY(3px); box-shadow: none; }
+
+        /* 字母選單 */
+        .menu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 10px; }
+        .letter-item { padding: 15px; background: #BBDEFB; color: #1976D2; border-radius: 18px; cursor: pointer; font-weight: bold; font-size: 24px; box-shadow: 0 4px #90CAF9; }
+
+        /* 遊戲區域樣式 */
+        .choice-container { display: flex; justify-content: space-around; align-items: center; margin: 35px 0; }
+        .circle-btn { width: 150px; height: 150px; border-radius: 50%; border: none; font-size: 26px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; box-shadow: 0 10px 0 rgba(0,0,0,0.1); }
         .circle-btn.pink { background-color: var(--pink); }
         .circle-btn.blue { background-color: var(--blue); }
         .circle-btn:active { transform: translateY(6px); box-shadow: 0 4px 0 rgba(0,0,0,0.1); }
 
-        /* 控制按鈕區 */
-        .action-area { margin-top: 20px; background: #f9f9f9; border-radius: 20px; padding: 20px; }
-        .action-btn { border-radius: 40px; border: none; padding: 15px 30px; font-size: 20px; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; }
-        .rec-btn { background-color: #ff6b6b; box-shadow: 0 4px #ee5253; }
-        .play-btn { background-color: #1dd1a1; box-shadow: 0 4px #10ac84; }
-        .recording-text { color: #ff6b6b; font-weight: bold; margin: 10px; font-size: 20px; display: none; }
-
-        /* 選單網格 */
-        .menu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 20px; }
-        .letter-item { padding: 18px; background: #BBDEFB; color: #1976D2; border-radius: 18px; cursor: pointer; font-weight: bold; font-size: 24px; box-shadow: 0 4px #90CAF9; }
-        .letter-item:active { transform: translateY(3px); box-shadow: none; }
-
+        .action-area { margin-top: 20px; background: #f9f9f9; border-radius: 20px; padding: 15px; }
+        .action-btn { border-radius: 40px; border: none; padding: 12px 25px; font-size: 18px; color: white; cursor: pointer; margin: 5px; }
+        .rec-btn { background-color: #ff6b6b; }
+        .play-btn { background-color: #1dd1a1; }
+        
         .hidden { display: none !important; }
-        .blink { animation: blinker 0.8s linear infinite; }
-        @keyframes blinker { 50% { opacity: 0; } }
+        .victory-glow { animation: vPulse 0.8s infinite alternate; }
+        @keyframes vPulse { from { transform: scale(1); } to { transform: scale(1.1); text-shadow: 0 0 15px gold; } }
     </style>
 </head>
 <body>
@@ -44,68 +43,135 @@
 <div class="container">
     <div id="menu-view">
         <h2 class="header">LEVEL UP! 🚀</h2>
-        <p style="color: #888;">Pick a letter to start your quest!</p>
+        
+        <div class="review-container">
+            <button class="review-btn" onclick="startReview('AM')">🔄 Review A~M</button>
+            <button class="review-btn" onclick="startReview('ALL')" style="background:#2ecc71; box-shadow: 0 4px #27ae60;">🔥 Review All</button>
+        </div>
+
         <div id="menu" class="menu-grid"></div>
     </div>
 
-    <div id="game-view" class="hidden">
-        <div class="header">Phonics Level Up!</div>
-        <div class="stars" id="star-display">☆☆☆☆☆</div>
+    <div id="preview-view" class="hidden">
+        <h2 class="header" id="preview-title">Level</h2>
+        <p>Click words to listen before you start!</p>
+        <div id="word-preview-list" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:20px 0;"></div>
+        <button onclick="startChallenge()" style="background:var(--accent); color:white; border:none; padding:15px 40px; border-radius:30px; font-size:24px; cursor:pointer; font-weight:bold; box-shadow: 0 5px #2e86de;">START CHALLENGE ➔</button>
+        <br><br>
+        <button onclick="location.reload()" style="background:none; border:none; color:gray; cursor:pointer;">Back to Menu</button>
+    </div>
 
-        <button onclick="playSound()" style="background:white; border:3px solid #54a0ff; color:#54a0ff; border-radius:30px; padding:10px 25px; cursor:pointer; font-weight:bold; font-size: 18px;">🔊 Listen</button>
+    <div id="game-view" class="hidden">
+        <div class="header" id="game-title">Phonics Level Up!</div>
+        <div class="stars" id="star-display">☆☆☆☆☆</div>
+        <button onclick="playSound()" style="background:white; border:2px solid var(--accent); color:var(--accent); border-radius:20px; padding:8px 20px; cursor:pointer; font-weight:bold;">🔊 Listen</button>
 
         <div class="choice-container">
             <button id="opt1" class="circle-btn pink" onclick="checkAnswer(this)"></button>
             <button id="opt2" class="circle-btn blue" onclick="checkAnswer(this)"></button>
         </div>
 
-        <div id="recording-status" class="recording-text blink">🔴 RECORDING...</div>
-
         <div id="feedback-area" class="hidden">
             <div class="action-area">
                 <button id="recBtn" class="action-btn rec-btn" onmousedown="startRec()" onmouseup="stopRec()" ontouchstart="startRec()" ontouchend="stopRec()">🎤 Hold to Record</button>
                 <button id="playRecBtn" class="action-btn play-btn hidden" onclick="playBack()">▶ My Voice</button>
             </div>
-            <button onclick="nextRound()" style="margin-top:30px; border:none; background:#54a0ff; color:white; border-radius:25px; padding:12px 40px; font-size:22px; cursor:pointer; font-weight:bold; box-shadow: 0 5px #2e86de;">NEXT ➔</button>
+            <button id="next-btn" onclick="nextRound()" style="margin-top:25px; border:none; background:var(--accent); color:white; border-radius:25px; padding:12px 40px; font-size:20px; cursor:pointer; font-weight:bold;">NEXT ➔</button>
         </div>
-        
-        <button onclick="location.reload()" style="margin-top:50px; color:gray; background:none; border:none; cursor:pointer; font-size: 16px;">⬅ Back to Menu</button>
+        <button onclick="location.reload()" style="margin-top:20px; background:none; border:none; color:lightgray; cursor:pointer;">Back to Menu</button>
     </div>
 </div>
 
 <script>
-    // 完整的 A-Z 單字資料庫 (與之前相同)
     const phonicsData = {
-        A:["ant","alligator","arrow","apple","ax"], B:["bee","bear","boy","bike","bus","boat","bird"],
-        C:["cat","cap","cup","cake","cow","computer","camera","caterpillar"], D:["dog","door","duck","deer","donkey","dinosaur"],
-        E:["egg","elf","eggplant","elephant","elk"], F:["fish","fan","five","frog","fox","fruit"],
-        G:["goat","girl","goose","gift","gum","gorilla"], H:["hat","horse","hen","house","happy","hand","hippo","hut"],
-        I:["ink","in","igloo","iguana","insect","indian"], J:["jam","juice","jeep","jet","jungle","jellyfish"],
-        K:["kite","key","kit","king","kangaroo","koala"], L:["lion","lamp","leaf","lake","love","line","ladybug","lemon"],
-        M:["mouse","monkey","moon","milk","mitten","map"], N:["nut","net","nose","nurse","number","nest","nine"],
-        O:["ox","olive","on","octopus","otter","ostrich"], P:["pig","pen","pan","papaya","penguin","peas","piano","pizza","puppy"],
-        Q:["queen","quilt","quick","quiet","quarter","quiz"], R:["run","rock","rabbit","robot","rose","rat","red","room"],
-        S:["sun","socks","soup","snail","star","snake","sea","sandwich"], T:["tiger","top","turtle","ten","train","taxi","tomato","tent"],
-        U:["up","under","uncle","umbrella","underwear"], V:["vase","van","vet","vest","volcano","violin"],
-        W:["witch","window","water","watermelon","wolf","watch","well","wagon"], X:["box","fox","mix","six","T-rex"],
-        Y:["yolk","yo-yo","yes","yawn","yellow","yogurt","yarn"], Z:["zoo","zebra","zipper","zero"]
+        A: ["ant", "alligator", "arrow", "apple", "ax"],
+        B: ["bee", "bear", "boy", "bike", "bus", "boat", "bird"],
+        C: ["cat", "cap", "cup", "cake", "cow", "computer", "camera", "caterpillar"],
+        D: ["dog", "door", "duck", "deer", "donkey", "dinosaur"],
+        E: ["egg", "elf", "eggplant", "elephant", "elk"],
+        F: ["fish", "fan", "five", "frog", "fox", "fruit"],
+        G: ["goat", "girl", "goose", "gift", "gum", "gorilla"],
+        H: ["hat", "horse", "hen", "house", "happy", "hand", "hippo", "hut"],
+        I: ["ink", "in", "igloo", "iguana", "insect", "indian"],
+        J: ["jam", "juice", "jeep", "jet", "jungle", "jellyfish"],
+        K: ["kite", "key", "kit", "king", "kangaroo", "koala"],
+        L: ["lion", "lamp", "leaf", "lake", "love", "line", "ladybug", "lemon"],
+        M: ["mouse", "monkey", "moon", "milk", "mitten", "map"],
+        N: ["nut", "net", "nose", "nurse", "number", "nest", "nine"],
+        O: ["ox", "olive", "on", "octopus", "otter", "ostrich"],
+        P: ["pig", "pen", "pan", "papaya", "penguin", "peas", "piano", "pizza", "puppy"],
+        Q: ["queen", "quilt", "quick", "quiet", "quarter", "quiz"],
+        R: ["run", "rock", "rabbit", "robot", "rose", "rat", "red", "room"],
+        S: ["sun", "socks", "soup", "snail", "star", "snake", "sea", "sandwich"],
+        T: ["tiger", "top", "turtle", "ten", "train", "taxi", "tomato", "tent"],
+        U: ["up", "under", "uncle", "umbrella", "underwear"],
+        V: ["vase", "van", "vet", "vest", "volcano", "violin"],
+        W: ["witch", "window", "water", "watermelon", "wolf", "watch", "well", "wagon"],
+        X: ["box", "fox", "mix", "six", "T-rex"],
+        Y: ["yolk", "yo-yo", "yes", "yawn", "yellow", "yogurt", "yarn"],
+        Z: ["zoo", "zebra", "zipper", "zero"]
     };
 
-    let currentLetter = '', currentTarget = '', score = 0, mediaRecorder, audioChunks = [], audioUrl;
+    let currentLetter = '', currentTarget = '', score = 0, isReviewMode = false, reviewPool = [], mediaRecorder, audioChunks = [], audioUrl;
 
-    // 建立選單
+    // 建立 A-Z 選單
     const menu = document.getElementById('menu');
     Object.keys(phonicsData).forEach(l => {
         let div = document.createElement('div');
         div.className = 'letter-item'; div.innerText = l;
-        div.onclick = () => { currentLetter = l; document.getElementById('menu-view').classList.add('hidden'); document.getElementById('game-view').classList.remove('hidden'); nextRound(); };
+        div.onclick = () => showPreview(l);
         menu.appendChild(div);
     });
 
+    // 進入複習模式
+    function startReview(type) {
+        isReviewMode = true;
+        score = 0;
+        document.getElementById('menu-view').classList.add('hidden');
+        document.getElementById('game-view').classList.remove('hidden');
+        
+        if(type === 'AM') {
+            reviewPool = "ABCDEFGHIJKLM".split('');
+            document.getElementById('game-title').innerText = "Review A~M";
+        } else {
+            reviewPool = Object.keys(phonicsData);
+            document.getElementById('game-title').innerText = "Review All";
+        }
+        nextRound();
+    }
+
+    function showPreview(letter) {
+        isReviewMode = false;
+        currentLetter = letter;
+        document.getElementById('menu-view').classList.add('hidden');
+        document.getElementById('preview-view').classList.remove('hidden');
+        document.getElementById('preview-title').innerText = "Level 1" + letter;
+        
+        const listDiv = document.getElementById('word-preview-list');
+        listDiv.innerHTML = '';
+        phonicsData[letter].forEach(word => {
+            let span = document.createElement('button');
+            span.style = "padding:10px; border-radius:10px; border:1px solid #ddd; background:white; cursor:pointer;";
+            span.innerText = word;
+            span.onclick = () => speak(word);
+            listDiv.appendChild(span);
+        });
+    }
+
+    function startChallenge() {
+        document.getElementById('preview-view').classList.add('hidden');
+        document.getElementById('game-view').classList.remove('hidden');
+        document.getElementById('game-title').innerText = "Phonics Level Up!";
+        nextRound();
+    }
+
     function nextRound() {
-        const words = phonicsData[currentLetter];
+        // 如果是複習模式，隨機挑一個字母
+        const letter = isReviewMode ? reviewPool[Math.floor(Math.random() * reviewPool.length)] : currentLetter;
+        const words = phonicsData[letter];
         currentTarget = words[Math.floor(Math.random() * words.length)];
-        const others = Object.keys(phonicsData).filter(l => l !== currentLetter);
+        
+        const others = Object.keys(phonicsData).filter(l => l !== letter);
         const distractor = phonicsData[others[Math.floor(Math.random() * others.length)]][0];
         const options = [currentTarget, distractor].sort(() => Math.random() - 0.5);
         
@@ -113,7 +179,6 @@
         document.getElementById('opt2').innerText = options[1];
         document.getElementById('feedback-area').classList.add('hidden');
         document.getElementById('playRecBtn').classList.add('hidden');
-        document.getElementById('recording-status').style.display = 'none';
         document.getElementById('star-display').classList.remove('victory-glow');
         updateStars();
     }
@@ -134,7 +199,6 @@
             }
         } else {
             speak("Try again");
-            el.style.backgroundColor = "#eee";
         }
     }
 
@@ -145,16 +209,16 @@
 
     function playVictoryMusic() {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const melody = [
-            {f: 523, d: 0.15}, {f: 523, d: 0.15}, {f: 523, d: 0.15}, {f: 523, d: 0.4},
-            {f: 415, d: 0.4}, {f: 466, d: 0.4}, {f: 523, d: 0.2}, {f: 466, d: 0.15}, {f: 523, d: 1.0}
-        ];
-        let now = ctx.currentTime;
+        const melody = [{f: 523, d: 0.12}, {f: 523, d: 0.12}, {f: 523, d: 0.12}, {f: 523, d: 0.4}, {f: 415, d: 0.4}, {f: 466, d: 0.4}, {f: 523, d: 0.2}, {f: 466, d: 0.15}, {f: 523, d: 1.0}];
+        let time = ctx.currentTime;
         melody.forEach(n => {
-            const o = ctx.createOscillator(); const g = ctx.createGain();
-            o.type = 'square'; o.frequency.value = n.f; o.connect(g); g.connect(ctx.destination);
-            g.gain.setValueAtTime(0.05, now); g.gain.exponentialRampToValueAtTime(0.001, now + n.d);
-            o.start(now); o.stop(now + n.d); now += n.d;
+            const o1 = ctx.createOscillator(); const o2 = ctx.createOscillator(); const g = ctx.createGain();
+            o1.type = 'triangle'; o2.type = 'square'; o2.detune.value = 4;
+            o1.frequency.setValueAtTime(n.f, time); o2.frequency.setValueAtTime(n.f, time);
+            g.connect(ctx.destination); o1.connect(g); o2.connect(g);
+            g.gain.setValueAtTime(0, time); g.gain.linearRampToValueAtTime(0.1, time + 0.02); g.gain.exponentialRampToValueAtTime(0.01, time + n.d);
+            o1.start(time); o2.start(time); o1.stop(time + n.d); o2.stop(time + n.d);
+            time += n.d;
         });
     }
 
@@ -176,9 +240,8 @@
             document.getElementById('playRecBtn').classList.remove('hidden');
         };
     }).catch(err => console.log("Mic error:", err));
-
-    function startRec() { audioChunks = []; mediaRecorder.start(); document.getElementById('recording-status').style.display = 'block'; }
-    function stopRec() { mediaRecorder.stop(); document.getElementById('recording-status').style.display = 'none'; }
+    function startRec() { audioChunks = []; mediaRecorder.start(); }
+    function stopRec() { mediaRecorder.stop(); }
     function playBack() { new Audio(audioUrl).play(); }
 </script>
 </body>
