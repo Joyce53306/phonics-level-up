@@ -3,174 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phonics Level Up!</title>
+    <title>Phonics Level Up! 🚀</title>
     <style>
-        :root { --pink: #f8a5c2; --blue: #778beb; --bg: #fffbe6; --gold: #feca57; --accent: #54a0ff; --review: #9b59b6; }
+        :root { --pink: #f8a5c2; --blue: #778beb; --bg: #fffbe6; --gold: #feca57; --accent: #54a0ff; --review: #9b59b6; --green: #b2ff59; }
         body { font-family: 'Arial Rounded MT Bold', sans-serif; background-color: var(--bg); text-align: center; margin: 0; padding: 10px; }
-        .container { max-width: 600px; margin: auto; padding: 25px; background: white; border-radius: 40px; box-shadow: 0 15px 0 #f0e68c; min-height: 90vh; }
+        .container { max-width: 600px; margin: auto; padding: 25px; background: white; border-radius: 40px; box-shadow: 0 15px 0 #f0e68c; min-height: 95vh; }
         
-        .header { color: var(--accent); font-size: 32px; font-weight: bold; margin-bottom: 10px; text-shadow: 2px 2px #e3f2fd; }
+        .header { color: var(--accent); font-size: 32px; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .stars { font-size: 40px; color: var(--gold); margin-bottom: 15px; }
 
-        /* 複習按鈕樣式 */
+        /* 複習按鈕 */
         .review-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .review-btn { flex: 1; padding: 15px; background: var(--review); color: white; border: none; border-radius: 20px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px #8e44ad; }
-        .review-btn:active { transform: translateY(3px); box-shadow: none; }
+        .review-btn { flex: 1; padding: 12px; background: var(--review); color: white; border: none; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px #8e44ad; display: flex; align-items: center; justify-content: center; gap: 5px; }
 
-        /* 字母選單 */
-        .menu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 10px; }
-        .letter-item { padding: 15px; background: #BBDEFB; color: #1976D2; border-radius: 18px; cursor: pointer; font-weight: bold; font-size: 24px; box-shadow: 0 4px #90CAF9; }
+        /* 字母網格 */
+        .menu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .letter-item { padding: 12px; background: #e3f2fd; color: #1976D2; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 22px; border: 1px solid #bbdefb; }
 
-        /* 遊戲區域樣式 */
-        .choice-container { display: flex; justify-content: space-around; align-items: center; margin: 35px 0; }
-        .circle-btn { width: 150px; height: 150px; border-radius: 50%; border: none; font-size: 26px; font-weight: bold; color: white; cursor: pointer; transition: 0.2s; box-shadow: 0 10px 0 rgba(0,0,0,0.1); }
-        .circle-btn.pink { background-color: var(--pink); }
-        .circle-btn.blue { background-color: var(--blue); }
-        .circle-btn:active { transform: translateY(6px); box-shadow: 0 4px 0 rgba(0,0,0,0.1); }
-
-        .action-area { margin-top: 20px; background: #f9f9f9; border-radius: 20px; padding: 15px; }
-        .action-btn { border-radius: 40px; border: none; padding: 12px 25px; font-size: 18px; color: white; cursor: pointer; margin: 5px; }
-        .rec-btn { background-color: #ff6b6b; }
-        .play-btn { background-color: #1dd1a1; }
+        /* 錄音控制區 (優化後的樣式) */
+        .recording-box { background: #fdfdfd; border: 2px solid #eee; border-radius: 30px; padding: 20px; margin-top: 20px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
+        .rec-circle-btn { width: 70px; height: 70px; border-radius: 50%; border: 4px solid #fff; background: #ff5252; color: white; font-size: 30px; cursor: pointer; box-shadow: 0 4px 10px rgba(255,82,82,0.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; transition: 0.3s; }
+        .rec-circle-btn.is-recording { background: #333; animation: pulse 1.2s infinite; }
         
+        .play-back-long { width: 100%; background: var(--green); color: #333; border: none; padding: 15px; border-radius: 25px; font-size: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 0 #8bc34a; }
+        
+        .status-tag { display: inline-block; padding: 5px 15px; border-radius: 15px; background: #fff3e0; color: #ef6c00; font-weight: bold; margin-bottom: 10px; }
+        
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0px rgba(255, 82, 82, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 82, 82, 0); } 100% { transform: scale(1); } }
+
+        /* 圓圈按鈕 */
+        .circle-btn { width: 150px; height: 150px; border-radius: 50%; border: none; font-size: 28px; font-weight: bold; color: #444; cursor: pointer; transition: 0.2s; box-shadow: 0 10px 0 rgba(0,0,0,0.05); }
+        .circle-btn.pink { background-color: var(--pink); border: 8px solid white; }
+        .circle-btn.blue { background-color: #e3f2fd; border: 8px solid white; color: #54a0ff; }
+
         .hidden { display: none !important; }
-        .victory-glow { animation: vPulse 0.8s infinite alternate; }
-        @keyframes vPulse { from { transform: scale(1); } to { transform: scale(1.1); text-shadow: 0 0 15px gold; } }
+        .blink { animation: blinker 1s linear infinite; }
+        @keyframes blinker { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="menu-view">
-        <h2 class="header">LEVEL UP! 🚀</h2>
-        
+        <div class="header">Phonics Level Up! 🚀</div>
+        <div class="stars">★★★</div>
         <div class="review-container">
             <button class="review-btn" onclick="startReview('AM')">🔄 Review A~M</button>
-            <button class="review-btn" onclick="startReview('ALL')" style="background:#2ecc71; box-shadow: 0 4px #27ae60;">🔥 Review All</button>
+            <button class="review-btn" onclick="startReview('ALL')" style="background:#4caf50; box-shadow: 0 4px #2e7d32;">🔥 Review All</button>
         </div>
-
         <div id="menu" class="menu-grid"></div>
-    </div>
-
-    <div id="preview-view" class="hidden">
-        <h2 class="header" id="preview-title">Level</h2>
-        <p>Click words to listen before you start!</p>
-        <div id="word-preview-list" style="display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin:20px 0;"></div>
-        <button onclick="startChallenge()" style="background:var(--accent); color:white; border:none; padding:15px 40px; border-radius:30px; font-size:24px; cursor:pointer; font-weight:bold; box-shadow: 0 5px #2e86de;">START CHALLENGE ➔</button>
-        <br><br>
-        <button onclick="location.reload()" style="background:none; border:none; color:gray; cursor:pointer;">Back to Menu</button>
     </div>
 
     <div id="game-view" class="hidden">
         <div class="header" id="game-title">Phonics Level Up!</div>
         <div class="stars" id="star-display">☆☆☆☆☆</div>
-        <button onclick="playSound()" style="background:white; border:2px solid var(--accent); color:var(--accent); border-radius:20px; padding:8px 20px; cursor:pointer; font-weight:bold;">🔊 Listen</button>
-
-        <div class="choice-container">
+        
+        <div class="choice-container" style="display:flex; justify-content:space-around; margin: 30px 0;">
             <button id="opt1" class="circle-btn pink" onclick="checkAnswer(this)"></button>
             <button id="opt2" class="circle-btn blue" onclick="checkAnswer(this)"></button>
         </div>
 
         <div id="feedback-area" class="hidden">
-            <div class="action-area">
-                <button id="recBtn" class="action-btn rec-btn" onmousedown="startRec()" onmouseup="stopRec()" ontouchstart="startRec()" ontouchend="stopRec()">🎤 Hold to Record</button>
-                <button id="playRecBtn" class="action-btn play-btn hidden" onclick="playBack()">▶ My Voice</button>
+            <div class="recording-box">
+                <div id="rec-status" class="status-tag hidden">✅ RECORDING...</div>
+                <button id="recBtn" class="rec-circle-btn" onclick="toggleRecording()">🎤</button>
+                <div id="rec-hint">點一下開始錄音</div>
+                
+                <button id="playRecBtn" class="play-back-long hidden" onclick="playBack()">
+                    <span>▶️</span> 聽我的聲音
+                </button>
             </div>
-            <button id="next-btn" onclick="nextRound()" style="margin-top:25px; border:none; background:var(--accent); color:white; border-radius:25px; padding:12px 40px; font-size:20px; cursor:pointer; font-weight:bold;">NEXT ➔</button>
+            <button onclick="nextRound()" style="margin-top:25px; border:none; background:var(--accent); color:white; border-radius:25px; padding:15px 50px; font-size:22px; cursor:pointer; font-weight:bold;">NEXT ➔</button>
         </div>
-        <button onclick="location.reload()" style="margin-top:20px; background:none; border:none; color:lightgray; cursor:pointer;">Back to Menu</button>
+        <button onclick="location.reload()" style="margin-top:30px; background:none; border:none; color:lightgray; cursor:pointer;">Back to Menu</button>
     </div>
 </div>
 
 <script>
     const phonicsData = {
-        A: ["ant", "alligator", "arrow", "apple", "ax"],
-        B: ["bee", "bear", "boy", "bike", "bus", "boat", "bird"],
-        C: ["cat", "cap", "cup", "cake", "cow", "computer", "camera", "caterpillar"],
-        D: ["dog", "door", "duck", "deer", "donkey", "dinosaur"],
-        E: ["egg", "elf", "eggplant", "elephant", "elk"],
-        F: ["fish", "fan", "five", "frog", "fox", "fruit"],
-        G: ["goat", "girl", "goose", "gift", "gum", "gorilla"],
-        H: ["hat", "horse", "hen", "house", "happy", "hand", "hippo", "hut"],
-        I: ["ink", "in", "igloo", "iguana", "insect", "indian"],
-        J: ["jam", "juice", "jeep", "jet", "jungle", "jellyfish"],
-        K: ["kite", "key", "kit", "king", "kangaroo", "koala"],
-        L: ["lion", "lamp", "leaf", "lake", "love", "line", "ladybug", "lemon"],
-        M: ["mouse", "monkey", "moon", "milk", "mitten", "map"],
-        N: ["nut", "net", "nose", "nurse", "number", "nest", "nine"],
-        O: ["ox", "olive", "on", "octopus", "otter", "ostrich"],
-        P: ["pig", "pen", "pan", "papaya", "penguin", "peas", "piano", "pizza", "puppy"],
-        Q: ["queen", "quilt", "quick", "quiet", "quarter", "quiz"],
-        R: ["run", "rock", "rabbit", "robot", "rose", "rat", "red", "room"],
-        S: ["sun", "socks", "soup", "snail", "star", "snake", "sea", "sandwich"],
-        T: ["tiger", "top", "turtle", "ten", "train", "taxi", "tomato", "tent"],
-        U: ["up", "under", "uncle", "umbrella", "underwear"],
-        V: ["vase", "van", "vet", "vest", "volcano", "violin"],
-        W: ["witch", "window", "water", "watermelon", "wolf", "watch", "well", "wagon"],
-        X: ["box", "fox", "mix", "six", "T-rex"],
-        Y: ["yolk", "yo-yo", "yes", "yawn", "yellow", "yogurt", "yarn"],
-        Z: ["zoo", "zebra", "zipper", "zero"]
+        A:["ant","alligator","arrow","apple","ax"], B:["bee","bear","boy","bike","bus","boat","bird"],
+        C:["cat","cap","cup","cake","cow","computer","camera","caterpillar"], D:["dog","door","duck","deer","donkey","dinosaur"],
+        E:["egg","elf","eggplant","elephant","elk"], F:["fish","fan","five","frog","fox","fruit"],
+        G:["goat","girl","goose","gift","gum","gorilla"], H:["hat","horse","hen","house","happy","hand","hippo","hut"],
+        I:["ink","in","igloo","iguana","insect","indian"], J:["jam","juice","jeep","jet","jungle","jellyfish"],
+        K:["kite","key","kit","king","kangaroo","koala"], L:["lion","lamp","leaf","lake","love","line","ladybug","lemon"],
+        M:["mouse","monkey","moon","milk","mitten","map"], N:["nut","net","nose","nurse","number","nest","nine"],
+        O:["ox","olive","on","octopus","otter","ostrich"], P:["pig","pen","pan","papaya","penguin","peas","piano","pizza","puppy"],
+        Q:["queen","quilt","quick","quiet","quarter","quiz"], R:["run","rock","rabbit","robot","rose","rat","red","room"],
+        S:["sun","socks","soup","snail","star","snake","sea","sandwich"], T:["tiger","top","turtle","ten","train","taxi","tomato","tent"],
+        U:["up","under","uncle","umbrella","underwear"], V:["vase","van","vet","vest","volcano","violin"],
+        W:["witch","window","water","watermelon","wolf","watch","well","wagon"], X:["box","fox","mix","six","T-rex"],
+        Y:["yolk","yo-yo","yes","yawn","yellow","yogurt","yarn"], Z:["zoo","zebra","zipper","zero"]
     };
 
-    let currentLetter = '', currentTarget = '', score = 0, isReviewMode = false, reviewPool = [], mediaRecorder, audioChunks = [], audioUrl;
+    let currentLetter = '', currentTarget = '', score = 0, isReviewMode = false, reviewPool = [];
+    let mediaRecorder, audioChunks = [], audioUrl, isRecording = false;
 
-    // 建立 A-Z 選單
+    // 初始化選單
     const menu = document.getElementById('menu');
     Object.keys(phonicsData).forEach(l => {
         let div = document.createElement('div');
         div.className = 'letter-item'; div.innerText = l;
-        div.onclick = () => showPreview(l);
+        div.onclick = () => { currentLetter = l; isReviewMode = false; startChallenge(); };
         menu.appendChild(div);
     });
 
-    // 進入複習模式
     function startReview(type) {
-        isReviewMode = true;
-        score = 0;
+        isReviewMode = true; score = 0;
         document.getElementById('menu-view').classList.add('hidden');
         document.getElementById('game-view').classList.remove('hidden');
-        
-        if(type === 'AM') {
-            reviewPool = "ABCDEFGHIJKLM".split('');
-            document.getElementById('game-title').innerText = "Review A~M";
-        } else {
-            reviewPool = Object.keys(phonicsData);
-            document.getElementById('game-title').innerText = "Review All";
-        }
+        reviewPool = (type === 'AM') ? "ABCDEFGHIJKLM".split('') : Object.keys(phonicsData);
+        document.getElementById('game-title').innerText = type === 'AM' ? "Review A~M" : "Review All";
         nextRound();
     }
 
-    function showPreview(letter) {
-        isReviewMode = false;
-        currentLetter = letter;
-        document.getElementById('menu-view').classList.add('hidden');
-        document.getElementById('preview-view').classList.remove('hidden');
-        document.getElementById('preview-title').innerText = "Level 1" + letter;
-        
-        const listDiv = document.getElementById('word-preview-list');
-        listDiv.innerHTML = '';
-        phonicsData[letter].forEach(word => {
-            let span = document.createElement('button');
-            span.style = "padding:10px; border-radius:10px; border:1px solid #ddd; background:white; cursor:pointer;";
-            span.innerText = word;
-            span.onclick = () => speak(word);
-            listDiv.appendChild(span);
-        });
-    }
-
     function startChallenge() {
-        document.getElementById('preview-view').classList.add('hidden');
+        document.getElementById('menu-view').classList.add('hidden');
         document.getElementById('game-view').classList.remove('hidden');
-        document.getElementById('game-title').innerText = "Phonics Level Up!";
         nextRound();
     }
 
     function nextRound() {
-        // 如果是複習模式，隨機挑一個字母
         const letter = isReviewMode ? reviewPool[Math.floor(Math.random() * reviewPool.length)] : currentLetter;
-        const words = phonicsData[letter];
-        currentTarget = words[Math.floor(Math.random() * words.length)];
-        
+        currentTarget = phonicsData[letter][Math.floor(Math.random() * phonicsData[letter].length)];
         const others = Object.keys(phonicsData).filter(l => l !== letter);
         const distractor = phonicsData[others[Math.floor(Math.random() * others.length)]][0];
         const options = [currentTarget, distractor].sort(() => Math.random() - 0.5);
@@ -179,24 +134,17 @@
         document.getElementById('opt2').innerText = options[1];
         document.getElementById('feedback-area').classList.add('hidden');
         document.getElementById('playRecBtn').classList.add('hidden');
-        document.getElementById('star-display').classList.remove('victory-glow');
         updateStars();
+        speak(currentTarget);
     }
 
-    function playSound() { speak(currentTarget); }
     function speak(t) { window.speechSynthesis.cancel(); const m = new SpeechSynthesisUtterance(t); m.lang = 'en-US'; m.rate = 0.8; window.speechSynthesis.speak(m); }
 
     function checkAnswer(el) {
         if (el.innerText === currentTarget) {
-            score++;
-            updateStars();
+            score++; updateStars();
             document.getElementById('feedback-area').classList.remove('hidden');
-            if (score > 0 && score % 5 === 0) {
-                document.getElementById('star-display').classList.add('victory-glow');
-                playVictoryMusic();
-            } else {
-                playSimpleDing();
-            }
+            if (score > 0 && score % 5 === 0) playVictoryMusic(); else playSimpleDing();
         } else {
             speak("Try again");
         }
@@ -207,59 +155,34 @@
         document.getElementById('star-display').innerText = "★".repeat(s) + "☆".repeat(5-s);
     }
 
-   function playVictoryMusic() {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const now = ctx.currentTime;
-
-    // 定義經典 9 音符的頻率與節奏
-    const melody = [
-        { f: 523.25, d: 0.12 }, { f: 523.25, d: 0.12 }, { f: 523.25, d: 0.12 }, { f: 523.25, d: 0.4 }, 
-        { f: 415.30, d: 0.4 }, { f: 466.16, d: 0.4 }, 
-        { f: 523.25, d: 0.2 }, { f: 466.16, d: 0.15 }, { f: 523.25, d: 1.2 }
-    ];
-
-    let time = now;
-
-    melody.forEach((note, i) => {
-        // 使用兩個震盪器混合，模擬小喇叭的豐滿音色
-        const osc1 = ctx.createOscillator();
-        const osc2 = ctx.createOscillator();
-        const gain = ctx.createGain();
-
-        osc1.type = 'triangle'; // 基礎音
-        osc2.type = 'square';   // 增加明亮度（小喇叭感）
-        osc2.detune.value = 4;  // 稍微失諧讓聲音更厚
-
-        osc1.frequency.setValueAtTime(note.f, time);
-        osc2.frequency.setValueAtTime(note.f, time);
-
-        gain.connect(ctx.destination);
-        osc1.connect(gain);
-        osc2.connect(gain);
-
-        // 音量包絡線：要有彈奏的敲擊感
-        gain.gain.setValueAtTime(0, time);
-        gain.gain.linearRampToValueAtTime(0.15, time + 0.02); // 快速變大
-        gain.gain.exponentialRampToValueAtTime(0.01, time + note.d); // 緩慢變小
-
-        osc1.start(time);
-        osc2.start(time);
-        osc1.stop(time + note.d);
-        osc2.stop(time + note.d);
-
-        time += note.d;
-    });
-}
-
-    function playSimpleDing() {
-        const ctx = new AudioContext(); const o = ctx.createOscillator(); const g = ctx.createGain();
-        o.connect(g); g.connect(ctx.destination); o.frequency.setValueAtTime(523, ctx.currentTime);
-        o.frequency.exponentialRampToValueAtTime(659, ctx.currentTime + 0.1);
-        g.gain.setValueAtTime(0.05, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
-        o.start(); o.stop(ctx.currentTime + 0.3);
+    // 錄音邏輯優化：開關式
+    function toggleRecording() {
+        if (!isRecording) {
+            startRec();
+        } else {
+            stopRec();
+        }
     }
 
-    // 錄音相關
+    function startRec() {
+        audioChunks = [];
+        mediaRecorder.start();
+        isRecording = true;
+        document.getElementById('recBtn').classList.add('is-recording');
+        document.getElementById('recBtn').innerText = "⏹️";
+        document.getElementById('rec-status').classList.remove('hidden');
+        document.getElementById('rec-hint').innerText = "錄音中，再點一下停止";
+    }
+
+    function stopRec() {
+        mediaRecorder.stop();
+        isRecording = false;
+        document.getElementById('recBtn').classList.remove('is-recording');
+        document.getElementById('recBtn').innerText = "🎤";
+        document.getElementById('rec-status').classList.add('hidden');
+        document.getElementById('rec-hint').innerText = "錄製完成！";
+    }
+
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
         mediaRecorder = new MediaRecorder(stream);
         mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
@@ -268,11 +191,31 @@
             audioUrl = URL.createObjectURL(audioBlob);
             document.getElementById('playRecBtn').classList.remove('hidden');
         };
-    }).catch(err => console.log("Mic error:", err));
-    function startRec() { audioChunks = []; mediaRecorder.start(); }
-    function stopRec() { mediaRecorder.stop(); }
+    });
+
     function playBack() { new Audio(audioUrl).play(); }
+
+    // 音效
+    function playVictoryMusic() {
+        const ctx = new AudioContext(); const melody = [{f:523,d:0.12},{f:523,d:0.12},{f:523,d:0.12},{f:523,d:0.4},{f:415,d:0.4},{f:466,d:0.4},{f:523,d:0.2},{f:466,d:0.15},{f:523,d:1.0}];
+        let time = ctx.currentTime;
+        melody.forEach(n => {
+            const o1=ctx.createOscillator(); const o2=ctx.createOscillator(); const g=ctx.createGain();
+            o1.type='triangle'; o2.type='square'; o2.detune.value=4;
+            o1.frequency.setValueAtTime(n.f, time); o2.frequency.setValueAtTime(n.f, time);
+            g.connect(ctx.destination); o1.connect(g); o2.connect(g);
+            g.gain.setValueAtTime(0, time); g.gain.linearRampToValueAtTime(0.1, time+0.02); g.gain.exponentialRampToValueAtTime(0.01, time+n.d);
+            o1.start(time); o2.start(time); o1.stop(time+n.d); o2.stop(time+n.d); time+=n.d;
+        });
+    }
+
+    function playSimpleDing() {
+        const ctx = new AudioContext(); const o=ctx.createOscillator(); const g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination); o.frequency.setValueAtTime(523, ctx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(659, ctx.currentTime+0.1);
+        g.gain.setValueAtTime(0.05, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.3);
+        o.start(); o.stop(ctx.currentTime+0.3);
+    }
 </script>
 </body>
 </html>
-
