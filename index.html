@@ -6,30 +6,22 @@
     <title>Long Vowel World 🚀</title>
     <style>
         :root { --pink: #f8a5c2; --blue: #778beb; --bg: #fffbe6; --gold: #feca57; --accent: #54a0ff; --green: #b2ff59; }
-        body { font-family: 'Arial Rounded MT Bold', sans-serif; background-color: var(--bg); text-align: center; margin: 0; padding: 10px; overflow-x: hidden; }
+        body { font-family: 'Arial Rounded MT Bold', sans-serif; background-color: var(--bg); text-align: center; margin: 0; padding: 10px; }
         .container { max-width: 600px; margin: auto; padding: 25px; background: white; border-radius: 40px; box-shadow: 0 15px 0 #f0e68c; min-height: 95vh; }
-        
         .header { color: var(--accent); font-size: 32px; font-weight: bold; margin-bottom: 10px; }
         .stars { font-size: 45px; color: var(--gold); margin-bottom: 15px; min-height: 60px; }
-        .victory-jump { animation: jump 0.5s ease infinite alternate; }
-        @keyframes jump { from { transform: translateY(0); } to { transform: translateY(-10px); } }
-
-        .vowel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
-        .vowel-item { padding: 25px 10px; background: #e3f2fd; color: #1976D2; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 26px; border: 1px solid #bbdefb; box-shadow: 0 5px #90caf9; transition: 0.1s; }
-        .vowel-item:active { transform: translateY(3px); box-shadow: none; }
-
+        .vowel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .vowel-item { padding: 25px 10px; background: #e3f2fd; color: #1976D2; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 26px; border: 1px solid #bbdefb; box-shadow: 0 5px #90caf9; }
         .choice-container { display: flex; justify-content: space-around; margin: 30px 0; min-height: 160px; }
-        .circle-btn { width: 145px; height: 145px; border-radius: 50%; border: 8px solid white; font-size: 26px; font-weight: bold; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 0 rgba(0,0,0,0.05); }
+        .circle-btn { width: 145px; height: 145px; border-radius: 50%; border: 8px solid white; font-size: 26px; font-weight: bold; cursor: pointer; box-shadow: 0 8px 0 rgba(0,0,0,0.05); }
         .circle-btn.pink { background-color: var(--pink); color: #ad1457; }
         .circle-btn.blue { background-color: #e1f5fe; color: #0288d1; }
-        .circle-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
         .recording-box { background: #fdfdfd; border: 2px solid #f0f0f0; border-radius: 30px; padding: 20px; margin-top: 20px; }
-        .rec-btn { width: 75px; height: 75px; border-radius: 50%; border: none; background: #ff5252; color: white; font-size: 32px; cursor: pointer; margin-bottom: 10px; }
-        .play-voice-btn { width: 100%; background: var(--green); border: none; padding: 15px; border-radius: 25px; font-size: 20px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #8bc34a; }
-
+        .rec-btn { width: 75px; height: 75px; border-radius: 50%; border: none; background: #ff5252; color: white; font-size: 32px; cursor: pointer; }
+        .play-voice-btn { width: 100%; background: var(--green); border: none; padding: 15px; border-radius: 25px; font-size: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .hidden { display: none !important; }
-        .next-btn { margin-top:20px; border:none; background:var(--accent); color:white; border-radius:25px; padding:15px 50px; font-size:22px; cursor:pointer; font-weight:bold; box-shadow: 0 5px #2e86de; }
+        .victory-jump { animation: jump 0.5s ease infinite alternate; }
+        @keyframes jump { from { transform: translateY(0); } to { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
@@ -56,17 +48,19 @@
         <div id="feedback-area" class="hidden">
             <div class="recording-box">
                 <button id="recBtn" class="rec-btn" onclick="toggleRecording()">🎤</button>
-                <div id="rec-status-text" style="color: #999; font-size: 14px; margin-bottom: 10px;">點一下錄音</div>
+                <div id="rec-status-text" style="color: #999; font-size: 14px; margin-top: 10px;">點一下錄音</div>
                 <button id="playRecBtn" class="play-voice-btn hidden" onclick="playBack()">▶️ 聽我的聲音</button>
             </div>
-            <button class="next-btn" onclick="nextRound()">NEXT ➔</button>
+            <button class="play-voice-btn" style="background:var(--accent); color:white;" onclick="nextRound()">NEXT ➔</button>
         </div>
         <button onclick="location.reload()" style="margin-top:30px; background:none; border:none; color:lightgray; cursor:pointer;">⬅ Back to Selection</button>
     </div>
 </div>
 
 <script>
+    // 1. 初始化音樂物件
     const victoryAudio = new Audio('https://www.myinstants.com/media/sounds/final-fantasy-vii-victory-fanfare-1.mp3');
+    victoryAudio.preload = 'auto'; // 強制預載
 
     const longVowelsData = {
         'Long A': ["cake", "case", "game", "tape", "rain", "pail", "hay", "say", "wave", "tail", "pay", "mail", "wait", "day", "lake", "gate", "snake", "whale", "gray", "paint"],
@@ -76,16 +70,23 @@
         'Long U': ["cute", "mule", "cube", "huge", "glue", "blue", "fruit", "suit", "nude", "duke", "Sue", "cue", "fuel", "mute", "few", "pew", "tube", "june", "flute", "juice"]
     };
 
-    let currentVowel = '', currentTarget = '', score = 0, isRecording = false, canClick = true;
+    let currentVowel = '', currentTarget = '', score = 0, isRecording = false;
     let mediaRecorder, audioChunks = [], audioUrl;
 
-    // 初始化選單
+    // 2. 自動生成選單
     const menuGrid = document.getElementById('vowel-menu');
     Object.keys(longVowelsData).forEach(v => {
         const div = document.createElement('div');
         div.className = 'vowel-item';
         div.innerText = v;
-        div.onclick = () => startLevel(v);
+        div.onclick = () => {
+            // 關鍵：點擊選單時就解鎖音訊播放權限
+            victoryAudio.play().then(() => {
+                victoryAudio.pause();
+                victoryAudio.currentTime = 0;
+            }).catch(() => {});
+            startLevel(v);
+        };
         menuGrid.appendChild(div);
     });
 
@@ -99,28 +100,19 @@
     }
 
     function nextRound() {
-        canClick = true;
-        // 核心修正：確保每一題開始前，按鈕區是顯示的，反饋區是隱藏的
         document.getElementById('question-area').classList.remove('hidden');
         document.getElementById('feedback-area').classList.add('hidden');
         document.getElementById('playRecBtn').classList.add('hidden');
         document.getElementById('star-display').classList.remove('victory-jump');
         
-        // 重置選項按鈕狀態
-        document.getElementById('opt1').disabled = false;
-        document.getElementById('opt2').disabled = false;
-
         const words = longVowelsData[currentVowel];
         currentTarget = words[Math.floor(Math.random() * words.length)];
-        
-        const otherVowels = Object.keys(longVowelsData).filter(v => v !== currentVowel);
-        const randomVowel = otherVowels[Math.floor(Math.random() * otherVowels.length)];
-        const distractor = longVowelsData[randomVowel][Math.floor(Math.random() * longVowelsData[randomVowel].length)];
-
+        const others = Object.keys(longVowelsData).filter(v => v !== currentVowel);
+        const distractor = longVowelsData[others[Math.floor(Math.random() * others.length)]][0];
         const options = [currentTarget, distractor].sort(() => Math.random() - 0.5);
+        
         document.getElementById('opt1').innerText = options[0];
         document.getElementById('opt2').innerText = options[1];
-        
         updateStars();
         speak(currentTarget);
     }
@@ -134,29 +126,52 @@
     }
 
     function checkAnswer(el) {
-        if (!canClick) return;
-        
         if (el.innerText === currentTarget) {
-            canClick = false;
             score++;
             updateStars();
-            
-            // 答對後隱藏選項按鈕，顯示錄音回饋區
             document.getElementById('question-area').classList.add('hidden');
             document.getElementById('feedback-area').classList.remove('hidden');
             
             if (score > 0 && score % 5 === 0) {
-                victoryAudio.currentTime = 0;
-                victoryAudio.play();
+                // 播放勝利音樂
+                playVictoryMusic();
                 document.getElementById('star-display').classList.add('victory-jump');
             } else {
                 playDing();
             }
         } else {
             speak("Try again");
-            el.style.animation = "shake 0.3s";
-            setTimeout(() => el.style.animation = "", 300);
         }
+    }
+
+    function playVictoryMusic() {
+        // 優先嘗試播放 MP3
+        victoryAudio.currentTime = 0;
+        const playPromise = victoryAudio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log("MP3 播放受限，使用合成音替代");
+                playBackupFanfare(); // MP3 失敗時的備援合成音
+            });
+        }
+    }
+
+    function playBackupFanfare() {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const notes = [523, 523, 523, 523, 415, 466, 523, 466, 523]; // FF 旋律簡化版
+        let time = ctx.currentTime;
+        notes.forEach((f, i) => {
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'sawtooth';
+            o.frequency.setValueAtTime(f, time);
+            g.gain.setValueAtTime(0.1, time);
+            g.gain.exponentialRampToValueAtTime(0.01, time + 0.3);
+            o.connect(g); g.connect(ctx.destination);
+            o.start(time); o.stop(time + 0.4);
+            time += (i === 3 || i === 5) ? 0.4 : 0.2;
+        });
     }
 
     function updateStars() {
@@ -177,20 +192,16 @@
         o.start(); o.stop(ctx.currentTime + 0.3);
     }
 
+    // 錄音功能與之前相同...
     function toggleRecording() {
         if (!isRecording) {
-            audioChunks = [];
-            mediaRecorder.start();
-            isRecording = true;
+            audioChunks = []; mediaRecorder.start(); isRecording = true;
             document.getElementById('recBtn').innerText = "⏹️";
             document.getElementById('recBtn').style.background = "#333";
-            document.getElementById('rec-status-text').innerText = "錄音中...再點一下停止";
         } else {
-            mediaRecorder.stop();
-            isRecording = false;
+            mediaRecorder.stop(); isRecording = false;
             document.getElementById('recBtn').innerText = "🎤";
             document.getElementById('recBtn').style.background = "#ff5252";
-            document.getElementById('rec-status-text').innerText = "錄音完成！";
         }
     }
 
@@ -199,21 +210,13 @@
         mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
         mediaRecorder.onstop = () => {
             const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-            if (audioUrl) URL.revokeObjectURL(audioUrl); // 清除舊資源
+            if (audioUrl) URL.revokeObjectURL(audioUrl);
             audioUrl = URL.createObjectURL(audioBlob);
             document.getElementById('playRecBtn').classList.remove('hidden');
         };
-    }).catch(err => console.log("麥克風存取失敗:", err));
+    }).catch(err => console.log("Mic error:", err));
 
     function playBack() { if(audioUrl) new Audio(audioUrl).play(); }
 </script>
-
-<style>
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        25% { transform: translateX(-5px); }
-        75% { transform: translateX(5px); }
-    }
-</style>
 </body>
 </html>
