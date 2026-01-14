@@ -2,200 +2,206 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Long Vowel World 🚀</title>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phonics Level Up! 🚀</title>
     <style>
-        :root { --pink: #f8a5c2; --blue: #bde0fe; --bg: #fffbe6; --gold: #feca57; --accent: #54a0ff; --green: #58cc02; }
-        body { font-family: sans-serif; background-color: var(--bg); text-align: center; margin: 0; padding: 15px; }
-        .container { max-width: 600px; margin: auto; padding: 25px; background: white; border-radius: 40px; box-shadow: 0 10px 0 #f0e68c; min-height: 90vh; }
-        .header { color: #1d3557; font-size: 28px; font-weight: bold; margin-bottom: 10px; }
-        .stars { font-size: 40px; color: var(--gold); margin-bottom: 15px; min-height: 50px; text-shadow: 1px 1px #888; }
+        :root { --pink: #f8a5c2; --blue: #778beb; --bg: #fffbe6; --gold: #feca57; --accent: #54a0ff; --review: #9b59b6; --green: #b2ff59; }
+        body { font-family: 'Arial Rounded MT Bold', sans-serif; background-color: var(--bg); text-align: center; margin: 0; padding: 10px; }
+        .container { max-width: 600px; margin: auto; padding: 25px; background: white; border-radius: 40px; box-shadow: 0 15px 0 #f0e68c; min-height: 95vh; position: relative; }
         
-        /* 選單樣式 */
-        .vowel-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-        .vowel-item { padding: 25px 10px; background: #e3f2fd; color: #1976D2; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 24px; border: 1px solid #bbdefb; box-shadow: 0 5px #90caf9; }
+        .header { color: var(--accent); font-size: 32px; font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .stars { font-size: 45px; color: var(--gold); margin-bottom: 15px; min-height: 60px; transition: 0.3s; }
+        .victory-animation { animation: celebration 0.5s infinite alternate; }
+        @keyframes celebration { from { transform: scale(1); } to { transform: scale(1.2); } }
+
+        /* 複習按鈕 */
+        .review-container { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .review-btn { flex: 1; padding: 12px; background: var(--review); color: white; border: none; border-radius: 15px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px #8e44ad; }
+
+        /* 字母網格 */
+        .menu-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .letter-item { padding: 12px; background: #e3f2fd; color: #1976D2; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 22px; border: 1px solid #bbdefb; }
+
+        /* 錄音控制區 */
+        .recording-box { background: #fdfdfd; border: 2px solid #eee; border-radius: 30px; padding: 20px; margin-top: 20px; }
+        .rec-circle-btn { width: 70px; height: 70px; border-radius: 50%; border: 4px solid #fff; background: #ff5252; color: white; font-size: 30px; cursor: pointer; box-shadow: 0 4px 10px rgba(255,82,82,0.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; }
+        .rec-circle-btn.is-recording { background: #333; animation: pulse 1.2s infinite; }
+        .play-back-long { width: 100%; background: var(--green); color: #333; border: none; padding: 15px; border-radius: 25px; font-size: 20px; font-weight: bold; cursor: pointer; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 0 #8bc34a; }
         
-        /* 遊戲按鈕樣式 */
-        .choice-container { display: flex; justify-content: space-around; margin: 30px 0; min-height: 160px; }
-        .circle-btn { width: 140px; height: 140px; border-radius: 50%; border: 6px solid white; font-size: 28px; font-weight: bold; cursor: pointer; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-        .circle-btn.pink { background-color: var(--pink); color: #ad1457; }
-        .circle-btn.blue { background-color: var(--blue); color: #0288d1; }
-        
-        /* 下方控制按鈕樣式 (同 Mid Sight Words) */
-        #controls { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; margin-top: 20px; }
-        .action-btn { padding: 15px 30px; border-radius: 50px; border: 2px solid #ddd; background-color: #fff; font-size: 18px; font-weight: bold; width: 90%; max-width: 350px; cursor: pointer; }
-        .record-btn { background-color: #ffd6a5; }
-        .recording { background-color: #ff6b6b !important; color: white; animation: pulse 1s infinite; }
-        .play-btn { background-color: #c1fba4; }
-        .next-btn { background-color: var(--green); color: white; font-size: 22px; border: none; box-shadow: 0 4px 0 #3d8b02; }
-        
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0px rgba(255, 82, 82, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(255, 82, 82, 0); } 100% { box-shadow: 0 0 0 0px rgba(255, 82, 82, 0); } }
+
+        /* 圓圈按鈕 */
+        .choice-container { display: flex; justify-content: space-around; margin: 30px 0; }
+        .circle-btn { width: 150px; height: 150px; border-radius: 50%; border: none; font-size: 28px; font-weight: bold; color: #444; cursor: pointer; transition: 0.2s; box-shadow: 0 10px 0 rgba(0,0,0,0.05); }
+        .circle-btn.pink { background-color: var(--pink); border: 8px solid white; }
+        .circle-btn.blue { background-color: #e3f2fd; border: 8px solid white; color: #54a0ff; }
+
         .hidden { display: none !important; }
-        .victory-jump { animation: jump 0.5s ease infinite alternate; }
-        @keyframes jump { from { transform: translateY(0); } to { transform: translateY(-10px); } }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="menu-view">
-        <h2 class="header">Long Vowel World 🚀</h2>
+        <div class="header">Phonics Level Up! 🚀</div>
         <div class="stars">✨✨✨</div>
-        <p style="color: #888;">Pick a Sound to Start!</p>
-        <div class="vowel-grid" id="vowel-menu"></div>
+        <div class="review-container">
+            <button class="review-btn" onclick="startReview('AM')">🔄 Review A~M</button>
+            <button class="review-btn" onclick="startReview('ALL')" style="background:#4caf50; box-shadow: 0 4px #2e7d32;">🔥 Review All</button>
+        </div>
+        <div id="menu" class="menu-grid"></div>
     </div>
 
     <div id="game-view" class="hidden">
-        <div class="header" id="current-vowel-display">Long Vowel</div>
-        <div id="star-display" class="stars">☆☆☆☆☆</div>
+        <div class="header" id="game-title">Phonics Level Up!</div>
+        <div class="stars" id="star-display">☆☆☆☆☆</div>
         
-        <div id="question-area">
-            <div class="choice-container">
-                <button id="opt1" class="circle-btn pink" onclick="checkAnswer(this)"></button>
-                <button id="opt2" class="circle-btn blue" onclick="checkAnswer(this)"></button>
-            </div>
-            <button class="action-btn" onclick="speak(currentTarget)">🔈 再聽一次老師唸</button>
+        <div class="choice-container">
+            <button id="opt1" class="circle-btn pink" onclick="checkAnswer(this)"></button>
+            <button id="opt2" class="circle-btn blue" onclick="checkAnswer(this)"></button>
         </div>
 
         <div id="feedback-area" class="hidden">
-            <div id="controls">
-                <button id="record-btn" class="action-btn record-btn" onclick="toggleRecording()">🎤 錄音練習</button>
-                <button id="playRecBtn" class="action-btn play-btn hidden" onclick="playBack()">▶️ 聽我的聲音</button>
-                <button class="action-btn next-btn" onclick="handleNextStep()">NEXT ➔</button>
+            <div class="recording-box">
+                <button id="recBtn" class="rec-circle-btn" onclick="toggleRecording()">🎤</button>
+                <div id="rec-hint" style="color:gray; font-size:14px;">點一下錄音</div>
+                <button id="playRecBtn" class="play-back-long hidden" onclick="playBack()">▶️ 聽我的聲音</button>
             </div>
+            <button onclick="nextRound()" style="margin-top:25px; border:none; background:var(--accent); color:white; border-radius:25px; padding:15px 50px; font-size:22px; cursor:pointer; font-weight:bold; box-shadow:0 5px #2e86de;">NEXT ➔</button>
         </div>
-        
-        <button onclick="location.reload()" style="margin-top:40px; background:none; border:none; color:lightgray; cursor:pointer; font-size: 16px;">⬅ Back to Selection</button>
+        <button onclick="location.reload()" style="margin-top:30px; background:none; border:none; color:lightgray; cursor:pointer;">Back to Menu</button>
     </div>
 </div>
 
 <script>
+    // 預先載入勝利音樂
     const victoryAudio = new Audio('https://www.myinstants.com/media/sounds/final-fantasy-vii-victory-fanfare-1.mp3');
-    
-    const longVowelsData = {
-        'Long A': ["cake", "case", "game", "tape", "rain", "pail", "hay", "say", "wave", "tail", "pay", "mail", "wait", "day", "lake", "gate", "snake", "whale", "gray", "paint"],
-        'Long E': ["bee", "see", "Eve", "Pete", "tea", "leaf", "sea", "read", "feet", "bean", "eat", "jeep", "reed", "seat", "pea", "green", "cheese", "tree", "meat", "sleep"],
-        'Long I': ["bike", "kite", "rice", "mice", "night", "fight", "light", "right", "ice", "like", "knight", "pie", "lie", "tie", "five", "lime", "cry", "fly", "sky", "smile", "high"],
-        'Long O': ["rose", "hose", "nose", "rope", "boat", "coat", "soap", "road", "coke", "bone", "toad", "home", "bowl", "row", "snow", "goat", "show", "slow", "cone", "note"],
-        'Long U': ["cute", "mule", "cube", "huge", "glue", "blue", "fruit", "suit", "nude", "duke", "Sue", "cue", "fuel", "mute", "few", "pew", "tube", "june", "flute", "juice"]
+
+    const phonicsData = {
+        A:["ant","alligator","arrow","apple","ax"], B:["bee","bear","boy","bike","bus","boat","bird"],
+        C:["cat","cap","cup","cake","cow","computer","camera","caterpillar"], D:["dog","door","duck","deer","donkey","dinosaur"],
+        E:["egg","elf","eggplant","elephant","elk"], F:["fish","fan","five","frog","fox","fruit"],
+        G:["goat","girl","goose","gift","gum","gorilla"], H:["hat","horse","hen","house","happy","hand","hippo","hut"],
+        I:["ink","in","igloo","iguana","insect","indian"], J:["jam","juice","jeep","jet","jungle","jellyfish"],
+        K:["kite","key","kit","king","kangaroo","koala"], L:["lion","lamp","leaf","lake","love","line","ladybug","lemon"],
+        M:["mouse","monkey","moon","milk","mitten","map"], N:["nut","net","nose","nurse","number","nest","nine"],
+        O:["ox","olive","on","octopus","otter","ostrich"], P:["pig","pen","pan","papaya","penguin","peas","piano","pizza","puppy"],
+        Q:["queen","quilt","quick","quiet","quarter","quiz"], R:["run","rock","rabbit","robot","rose","rat","red","room"],
+        S:["sun","socks","soup","snail","star","snake","sea","sandwich"], T:["tiger","top","turtle","ten","train","taxi","tomato","tent"],
+        U:["up","under","uncle","umbrella","underwear"], V:["vase","van","vet","vest","volcano","violin"],
+        W:["witch","window","water","watermelon","wolf","watch","well","wagon"], X:["box","fox","mix","six","T-rex"],
+        Y:["yolk","yo-yo","yes","yawn","yellow","yogurt","yarn"], Z:["zoo","zebra","zipper","zero"]
     };
 
-    let currentVowel = '', currentTarget = '', score = 0, isRecording = false;
-    let mediaRecorder, audioChunks = [], audioUrl;
+    let currentLetter = '', currentTarget = '', score = 0, isReviewMode = false, reviewPool = [];
+    let mediaRecorder, audioChunks = [], audioUrl, isRecording = false;
 
-    const menuGrid = document.getElementById('vowel-menu');
-    Object.keys(longVowelsData).forEach(v => {
-        const div = document.createElement('div');
-        div.className = 'vowel-item';
-        div.innerText = v;
-        div.onclick = () => {
-            victoryAudio.play().then(() => {
-                victoryAudio.pause();
-                victoryAudio.currentTime = 0;
-            }).catch(() => {});
-            startLevel(v);
-        };
-        menuGrid.appendChild(div);
+    // 初始化選單
+    const menu = document.getElementById('menu');
+    Object.keys(phonicsData).forEach(l => {
+        let div = document.createElement('div');
+        div.className = 'letter-item'; div.innerText = l;
+        div.onclick = () => { currentLetter = l; isReviewMode = false; startChallenge(); };
+        menu.appendChild(div);
     });
 
-    function startLevel(vowel) {
-        currentVowel = vowel;
-        score = 0;
+    function startReview(type) {
+        isReviewMode = true; score = 0;
         document.getElementById('menu-view').classList.add('hidden');
         document.getElementById('game-view').classList.remove('hidden');
-        document.getElementById('current-vowel-display').innerText = vowel;
+        reviewPool = (type === 'AM') ? "ABCDEFGHIJKLM".split('') : Object.keys(phonicsData);
+        document.getElementById('game-title').innerText = type === 'AM' ? "Review A~M" : "Review All";
+        nextRound();
+    }
+
+    function startChallenge() {
+        document.getElementById('menu-view').classList.add('hidden');
+        document.getElementById('game-view').classList.remove('hidden');
+        score = 0; // 重置分數
         nextRound();
     }
 
     function nextRound() {
-        document.getElementById('question-area').classList.remove('hidden');
-        document.getElementById('feedback-area').classList.add('hidden');
-        document.getElementById('playRecBtn').classList.add('hidden');
-        document.getElementById('record-btn').innerText = "🎤 錄音練習";
-        document.getElementById('record-btn').classList.remove('recording');
-        document.getElementById('star-display').classList.remove('victory-jump');
-        
-        const words = longVowelsData[currentVowel];
-        currentTarget = words[Math.floor(Math.random() * words.length)];
-        const others = Object.keys(longVowelsData).filter(v => v !== currentVowel);
-        const distractorVowel = others[Math.floor(Math.random() * others.length)];
-        const distractor = longVowelsData[distractorVowel][Math.floor(Math.random() * longVowelsData[distractorVowel].length)];
-        
+        const letter = isReviewMode ? reviewPool[Math.floor(Math.random() * reviewPool.length)] : currentLetter;
+        currentTarget = phonicsData[letter][Math.floor(Math.random() * phonicsData[letter].length)];
+        const others = Object.keys(phonicsData).filter(l => l !== letter);
+        const distractor = phonicsData[others[Math.floor(Math.random() * others.length)]][0];
         const options = [currentTarget, distractor].sort(() => Math.random() - 0.5);
+        
         document.getElementById('opt1').innerText = options[0];
         document.getElementById('opt2').innerText = options[1];
+        document.getElementById('feedback-area').classList.add('hidden');
+        document.getElementById('playRecBtn').classList.add('hidden');
+        document.getElementById('star-display').classList.remove('victory-animation');
         updateStars();
         speak(currentTarget);
     }
 
-    function speak(t) {
-        window.speechSynthesis.cancel();
-        const m = new SpeechSynthesisUtterance(t);
-        m.lang = 'en-US'; m.rate = 0.7;
-        window.speechSynthesis.speak(m);
-    }
+    function speak(t) { window.speechSynthesis.cancel(); const m = new SpeechSynthesisUtterance(t); m.lang = 'en-US'; m.rate = 0.8; window.speechSynthesis.speak(m); }
 
     function checkAnswer(el) {
         if (el.innerText === currentTarget) {
-            score++;
+            score++; 
             updateStars();
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-            document.getElementById('question-area').classList.add('hidden');
             document.getElementById('feedback-area').classList.remove('hidden');
+            
+            // 滿 5 顆星播放 FF 音效
+            if (score > 0 && score % 5 === 0) {
+                playVictoryMusic();
+                document.getElementById('star-display').classList.add('victory-animation');
+            } else {
+                playDing();
+            }
         } else {
-            speak("Try again: " + currentTarget);
-        }
-    }
-
-    function handleNextStep() {
-        if (score > 0 && score % 5 === 0) {
-            confetti({ particleCount: 400, spread: 120, origin: { y: 0.5 } });
-            document.getElementById('star-display').classList.add('victory-jump');
-            victoryAudio.currentTime = 0;
-            victoryAudio.play();
-            setTimeout(() => {
-                alert("🏆 Awesome! Level Up!");
-                nextRound();
-            }, 100);
-        } else {
-            nextRound();
+            speak("Try again");
         }
     }
 
     function updateStars() {
+        // 算出目前這組 5 題中的第幾顆星
         let displayScore = score % 5;
-        if (score > 0 && displayScore === 0) displayScore = 5;
+        if (score > 0 && score % 5 === 0) displayScore = 5;
         document.getElementById('star-display').innerText = "★".repeat(displayScore) + "☆".repeat(5 - displayScore);
     }
 
-    async function toggleRecording() {
-        const btn = document.getElementById('record-btn');
+    function playVictoryMusic() {
+        victoryAudio.currentTime = 0; // 從頭播放
+        victoryAudio.play();
+    }
+
+    function playDing() {
+        // 答對一題的小音效
+        const ctx = new AudioContext(); const o=ctx.createOscillator(); const g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination); o.frequency.setValueAtTime(523, ctx.currentTime);
+        o.frequency.exponentialRampToValueAtTime(659, ctx.currentTime+0.1);
+        g.gain.setValueAtTime(0.05, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime+0.3);
+        o.start(); o.stop(ctx.currentTime+0.3);
+    }
+
+    // 錄音邏輯
+    function toggleRecording() {
         if (!isRecording) {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                mediaRecorder = new MediaRecorder(stream);
-                audioChunks = [];
-                mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-                mediaRecorder.onstop = () => {
-                    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                    audioUrl = URL.createObjectURL(audioBlob);
-                    document.getElementById('playRecBtn').classList.remove('hidden');
-                };
-                mediaRecorder.start();
-                isRecording = true;
-                btn.innerText = "正在錄音...";
-                btn.classList.add('recording');
-            } catch (err) { alert("請開啟麥克風權限"); }
+            audioChunks = []; mediaRecorder.start(); isRecording = true;
+            document.getElementById('recBtn').classList.add('is-recording');
+            document.getElementById('recBtn').innerText = "⏹️";
         } else {
-            mediaRecorder.stop();
-            isRecording = false;
-            btn.innerText = "✅ 錄好了";
-            btn.classList.remove('recording');
+            mediaRecorder.stop(); isRecording = false;
+            document.getElementById('recBtn').classList.remove('is-recording');
+            document.getElementById('recBtn').innerText = "🎤";
         }
     }
 
-    function playBack() { if(audioUrl) new Audio(audioUrl).play(); }
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        mediaRecorder = new MediaRecorder(stream);
+        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            audioUrl = URL.createObjectURL(audioBlob);
+            document.getElementById('playRecBtn').classList.remove('hidden');
+        };
+    });
+
+    function playBack() { new Audio(audioUrl).play(); }
 </script>
 </body>
 </html>
