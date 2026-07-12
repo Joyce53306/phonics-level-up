@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
@@ -7,42 +7,32 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root { --pink: #f8a5c2; --blue: #778beb; --bg: #fffbe6; --gold: #feca57; --green: #1dd1a1; }
         body { font-family: 'Arial Rounded MT Bold', 'Helvetica', sans-serif; background-color: var(--bg); text-align: center; margin: 0; padding: 10px; overflow-x: hidden; -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
         .container { max-width: 600px; margin: auto; padding: 25px; background: white; border-radius: 40px; box-shadow: 0 15px 0 #f0e68c; min-height: 90vh; display: flex; flex-direction: column; justify-content: space-between; }
         
-        /* 標題與五星成就 */
         .header { color: #54a0ff; font-size: 32px; font-weight: bold; margin-bottom: 5px; text-shadow: 2px 2px #e3f2fd; text-transform: uppercase; }
         .stars { font-size: 45px; color: var(--gold); margin-bottom: 15px; min-height: 55px; letter-spacing: 5px; }
         .victory-glow { animation: victoryPulse 1s infinite alternate; }
         @keyframes victoryPulse { from { transform: scale(1); } to { transform: scale(1.2); text-shadow: 0 0 20px #feca57; } }
-
         .game-main { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; }
         
-        /* 關卡選擇按鈕（大、顯眼、好點擊） */
         .menu-btn { width: 85%; max-width: 350px; padding: 22px; margin: 15px auto; font-size: 28px; font-weight: bold; color: white; border: none; border-radius: 30px; cursor: pointer; transition: 0.2s; box-shadow: 0 8px 0 rgba(0,0,0,0.1); -webkit-appearance: none; display: block; }
         .btn-am { background-color: #ff9f43; box-shadow: 0 8px 0 #f39c12; }
         .btn-all { background-color: #1dd1a1; box-shadow: 0 8px 0 #10ac84; }
         .menu-btn:active { transform: translateY(4px); box-shadow: 0 4px 0 rgba(0,0,0,0.1); }
-
-        /* 🔊 LISTEN 按鈕完美置底樣式 */
         .listen-btn { background: white; border: 3px solid #54a0ff; color: #54a0ff; border-radius: 30px; padding: 12px 50px; cursor: pointer; font-weight: bold; font-size: 24px; margin-top: 30px; -webkit-appearance: none; box-shadow: 0 4px 0 #e3f2fd; }
         .listen-btn:active { background: #54a0ff; color: white; transform: translateY(2px); box-shadow: none; }
-
-        /* 🌟 中央大寫卡片提示：使用 Georgia 字體，確保大寫 I 一定有上下兩橫槓！ */
         .card-display { font-family: 'Georgia', 'Times New Roman', serif; font-size: 110px; color: #ff9f43; background: #fff3e0; border: 5px dashed #ffb74d; display: inline-block; padding: 10px 60px; border-radius: 25px; margin: 10px 0; box-shadow: 0 8px 0 #ffe0b2; }
-
-        /* 🌟 核心小寫圓圈按鈕：強制套用 Fredoka 幼兒字體，確保 a 與 g 是最標準的幼兒單層手寫體 */
+        /* 核心小寫圓圈按鈕：改用 Andika 兒童識字字體，a、g、l 都是標準兒童友善寫法，l 沒有勾勾 */
         .choice-container { display: flex; justify-content: space-around; align-items: center; width: 100%; margin: 20px 0; }
-        .circle-btn { font-family: 'Fredoka', 'Comic Sans MS', sans-serif; width: 160px; height: 160px; border-radius: 50%; border: none; font-size: 95px; font-weight: 700; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 10px 0 rgba(0,0,0,0.1); -webkit-appearance: none; line-height: 1; }
+        .circle-btn { font-family: 'Andika', 'Comic Sans MS', sans-serif; width: 160px; height: 160px; border-radius: 50%; border: none; font-size: 95px; font-weight: 700; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s; box-shadow: 0 10px 0 rgba(0,0,0,0.1); -webkit-appearance: none; line-height: 1; }
         .circle-btn.pink { background-color: var(--pink); }
         .circle-btn.blue { background-color: var(--blue); }
         .circle-btn:active { transform: translateY(6px); box-shadow: 0 4px 0 rgba(0,0,0,0.1); }
-
-        /* 下方功能控制區 */
         .action-area { margin-top: 20px; background: #f9f9f9; border-radius: 20px; padding: 20px; width: 100%; }
         .action-btn { border-radius: 40px; border: none; padding: 15px 30px; font-size: 20px; color: white; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font-weight: bold; -webkit-appearance: none; }
         .rec-btn { background-color: #ff6b6b; box-shadow: 0 4px #ee5253; }
@@ -51,14 +41,12 @@
         
         .next-btn { margin-top: 25px; border: none; background: #54a0ff; color: white; border-radius: 25px; padding: 12px 50px; font-size: 24px; cursor: pointer; font-weight: bold; box-shadow: 0 5px #2e86de; -webkit-appearance: none; }
         .back-menu-btn { margin-top: 30px; background: none; border: none; color: #aaa; font-size: 16px; font-weight: bold; cursor: pointer; }
-
         .hidden { display: none !important; }
         .blink { animation: blinker 0.8s linear infinite; }
         @keyframes blinker { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
-
 <div class="container">
     <div id="menu-view" style="width: 100%; margin: auto 0;">
         <h2 class="header" style="font-size: 36px; margin-bottom: 40px;">Phonics Level Up! 🚀</h2>
@@ -66,13 +54,11 @@
         <button class="menu-btn btn-all" onclick="startReview('ALL')">Review All (A~Z) 🏆</button>
         <p style="color: #aaa; font-weight: bold; margin-top: 30px; font-size: 14px;">大中小班全單字總複習系統</p>
     </div>
-
     <div id="game-view" class="hidden">
         <div>
             <h2 id="game-title" class="header" style="font-size: 24px; color: #888;">Review Mode</h2>
             <div class="stars" id="star-display">☆☆☆☆☆</div>
         </div>
-
         <div class="game-main">
             <div id="quiz-area" style="width:100%; display: flex; flex-direction: column; align-items: center;">
                 <div id="target-card" class="card-display"></div>
@@ -82,12 +68,9 @@
                     <button id="opt1" class="circle-btn pink" onclick="checkAnswer(this)"></button>
                     <button id="opt2" class="circle-btn blue" onclick="checkAnswer(this)"></button>
                 </div>
-
                 <button class="listen-btn" onclick="playSound()">🔊 LISTEN</button>
             </div>
-
             <div id="recording-status" class="recording-text blink">🔴 RECORDING...</div>
-
             <div id="feedback-area" class="hidden" style="width:100%;">
                 <p style="color:#1dd1a1; font-weight:bold; font-size:22px; margin: 10px 0;">🎉 MATCHED! GREAT JOB!</p>
                 <div class="action-area">
@@ -99,13 +82,10 @@
                 <button class="next-btn" onclick="nextRound()">NEXT ➔</button>
             </div>
         </div>
-
         <button class="back-menu-btn" onclick="goToMenu()">⬅ Back to Menu</button>
     </div>
 </div>
-
 <script>
-    // 老師大中小班最完整的單字資料庫
     const phonicsData = {
         A: ["ant", "alligator", "arrow", "apple", "ax"],
         B: ["bee", "bear", "boy", "bike", "bus", "boat", "bird"],
@@ -134,14 +114,11 @@
         Y: ["yolk", "yo-yo", "yes", "yawn", "yellow", "yogurt", "yarn"],
         Z: ["zoo", "zebra", "zipper", "zero"]
     };
-
     const allLetters = Object.keys(phonicsData);
     const amLetters = ["A","B","C","D","E","F","G","H","I","J","K","L","M"];
     
-    let currentPool = []; // 當前要複習的字母池
+    let currentPool = [];
     let currentLetter = '', currentTargetWord = '', score = 0, mediaRecorder, audioChunks = [], audioUrl;
-
-    // 啟動關卡
     function startReview(mode) {
         if (mode === 'AM') {
             currentPool = amLetters;
@@ -155,32 +132,23 @@
         document.getElementById('game-view').classList.remove('hidden');
         nextRound();
     }
-
     function goToMenu() {
         document.getElementById('game-view').classList.add('hidden');
         document.getElementById('menu-view').classList.remove('hidden');
     }
-
-    // 出題邏輯
     function nextRound() {
-        // 從選定的複習範圍中，隨機抓一個開頭字母，再隨機抓該字母旗下的分齡單字
         currentLetter = currentPool[Math.floor(Math.random() * currentPool.length)];
         const words = phonicsData[currentLetter];
         currentTargetWord = words[Math.floor(Math.random() * words.length)];
         
-        // 隨機抓另一個字母的小寫當作干擾選項
         const others = allLetters.filter(l => l !== currentLetter);
         const distractor = others[Math.floor(Math.random() * others.length)].toLowerCase();
-
-        // 亂數洗牌小寫圓圈的位置
         const options = [currentLetter.toLowerCase(), distractor].sort(() => Math.random() - 0.5);
         document.getElementById('opt1').innerText = options[0];
         document.getElementById('opt2').innerText = options[1];
         
-        // 顯示大寫卡片提示
         document.getElementById('target-card').innerText = currentLetter;
         
-        // 重置 UI
         document.getElementById('opt1').style.opacity = "1";
         document.getElementById('opt2').style.opacity = "1";
         document.getElementById('feedback-area').classList.add('hidden');
@@ -190,23 +158,17 @@
         document.getElementById('star-display').classList.remove('victory-glow');
         updateStars();
         
-        // 自動播放該題大中小班單字的語音發音 (Oral Input)
         setTimeout(playSound, 300);
     }
-
-    // 🔊 聽音：直接讀出大中小班單字音（例如：Alligator）
     function playSound() { speak(currentTargetWord); }
     function speak(t) { window.speechSynthesis.cancel(); const m = new SpeechSynthesisUtterance(t); m.lang = 'en-US'; m.rate = 0.75; window.speechSynthesis.speak(m); }
-
     function checkAnswer(el) {
-        // 比對孩子選的小寫字母是否符合題目
         if (el.innerText === currentLetter.toLowerCase()) {
             score++;
             updateStars();
             document.getElementById('quiz-area').classList.add('hidden');
             document.getElementById('feedback-area').classList.remove('hidden');
             
-            // 每滿五顆星發動 Final Fantasy 勝利慶祝樂章！
             if (score > 0 && score % 5 === 0) {
                 document.getElementById('star-display').classList.add('victory-glow');
                 playVictoryMusic();
@@ -218,13 +180,10 @@
             el.style.opacity = "0.3";
         }
     }
-
     function updateStars() {
         let s = (score % 5 === 0 && score !== 0) ? 5 : score % 5;
         document.getElementById('star-display').innerText = "★".repeat(s) + "☆".repeat(5-s);
     }
-
-    // FF 經典過關音樂模擬
     function playVictoryMusic() {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const melody = [
@@ -239,7 +198,6 @@
             o.start(now); o.stop(now + n.d); now += n.d;
         });
     }
-
     function playSimpleDing() {
         const ctx = new (window.AudioContext || window.webkitAudioContext)(); const o = ctx.createOscillator(); const g = ctx.createGain();
         o.connect(g); g.connect(ctx.destination); o.frequency.setValueAtTime(523, ctx.currentTime);
@@ -247,8 +205,6 @@
         g.gain.setValueAtTime(0.05, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
         o.start(); o.stop(ctx.currentTime + 0.3);
     }
-
-    // 🌟 iOS (Safari) & Android 錄音核心完美相容
     function initMediaRecorder(stream) {
         let options = { mimeType: 'audio/webm' };
         if (!MediaRecorder.isTypeSupported(options.mimeType)) {
@@ -265,11 +221,9 @@
             document.getElementById('playRecBtn').classList.remove('hidden');
         };
     }
-
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
         initMediaRecorder(stream);
     }).catch(err => console.log("Mic successfully initialized."));
-
     function startRec(e) { 
         if(e) e.preventDefault(); 
         if (!mediaRecorder || mediaRecorder.state === "recording") return;
